@@ -11,4 +11,5 @@ $ phonegap plugin add cordova-sqlite-storage
 ```
 
 Tested device:
+
 Android - LG Nexus 5, Android 6.0 Marshmallow
