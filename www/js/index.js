@@ -27,7 +27,7 @@ var app = {
         $('#btnForm').click(function () {
             $('#modalForm').modal('show');
         });
-        $('#btnTruncate').click(function(){
+        $('#btnTruncate').click(function () {
             app.funcTruncate();
         });
         $('#btnSubmit').click(function () {
@@ -77,13 +77,8 @@ var app = {
                     function (tx, res) {
                         console.log("insert #" + res.insertId);
                     });
-
-            tx.executeSql("SELECT * FROM test_form;", [], function (tx, res) {
-                var data = res.rows.item(0);
-                $('#modalForm').modal('hide');
-                app.funcList();
-            });
-
+            $('#modalForm').modal('hide');
+            app.funcList();
         }, function (e) {
             console.log("ERROR: " + JSON.stringify(e));
         });
@@ -129,8 +124,10 @@ var app = {
     },
     funcTruncate: function () {
         dataSource.transaction(function (tx) {
-            tx.executeSql("DELETE FROM test_form;", [], function (tx, res) {});
-            tx.executeSql("DELETE FROM SQLITE_SEQUENCE WHERE name='test_form';", [], function (tx, res) {});
+            tx.executeSql("DELETE FROM test_form;", [], function (tx, res) {
+            });
+            tx.executeSql("DELETE FROM SQLITE_SEQUENCE WHERE name='test_form';", [], function (tx, res) {
+            });
             app.funcList();
         }, function (e) {
             console.log("ERROR: " + JSON.stringify(e));
