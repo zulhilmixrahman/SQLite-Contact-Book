@@ -38,9 +38,8 @@ var app = {
         });
     },
     funcList: function () {
-        console.log('funcList');
         dataSource.transaction(function (tx) {
-            tx.executeSql("SELECT * FROM test_form;", [], function (tx, res) {
+            tx.executeSql("SELECT * FROM contact;", [], function (tx, res) {
                 var output = '<table class="ui celled table unstackable">'
                         + '<thead>'
                         + '<tr><th>id</th><th>name</th><th>email</th><th>action</th></tr>'
@@ -50,24 +49,25 @@ var app = {
                 var length = res.rows.length;
                 //Read data item per row based on length
                 var bil = 1;
-                for (var i = 0; i < length; i++) {
-                    var item = res.rows.item(i);
-                    output += '<tr id="tr_' + item.id + '">'
-                            + '<td>' + (bil++) + '</td>'
-                            + '<td>' + item.name + '</td>'
-                            + '<td>' + item.email + '</td>'
-                            + '<td>'
-                            + '<a id="btnEdit" href="#" onClick="contactEdit(' + item.id + ')"><i class="teal large inverted bordered edit icon"></i></a>'
-                            + '<a id="btnDelete" href="#" onClick="contactDelete(' + item.id + ')"><i class="red large inverted bordered trash outline icon"></i></a>'
-                            + '</td>'
-                            + '</tr>';
+                if (length > 0) {
+                    for (var i = 0; i < length; i++) {
+                        var item = res.rows.item(i);
+                        output += '<tr id="tr_' + item.id + '">'
+                                + '<td>' + (bil++) + '</td>'
+                                + '<td>' + item.name + '</td>'
+                                + '<td>' + item.email + '</td>'
+                                + '<td>'
+                                + '<a id="btnEdit" href="#" onClick="contactEdit(' + item.id + ')"><i class="teal large inverted bordered edit icon"></i></a>'
+                                + '<a id="btnDelete" href="#" onClick="contactDelete(' + item.id + ')"><i class="red large inverted bordered trash outline icon"></i></a>'
+                                + '</td>'
+                                + '</tr>';
+                    }
                 }
-
                 output += '</table>';
                 $('#formOutput').html(output);
             });
         }, function (e) {
-            console.log("ERROR: " + JSON.stringify(e));
+            console.log("ERROR funcList: " + JSON.stringify(e));
         });
     },
     funcCreate: function () {
@@ -80,7 +80,7 @@ var app = {
             $('#modalForm').modal('hide');
             app.funcList();
         }, function (e) {
-            console.log("ERROR: " + JSON.stringify(e));
+            console.log("ERROR funcCreate: " + JSON.stringify(e));
         });
     },
     funcRead: function (pk) {
@@ -96,7 +96,7 @@ var app = {
                 $('#modalForm').modal('show');
             });
         }, function (e) {
-            console.log("EROR: ".JSON.stringify(e));
+            console.log("EROR funcRead: ".JSON.stringify(e));
         });
     },
     funcUpdate: function (pk) {
@@ -108,7 +108,7 @@ var app = {
                         $('#modalForm').modal('hide');
                     });
         }, function (e) {
-            console.log("EROR: ".JSON.stringify(e));
+            console.log("EROR funcUpdate: ".JSON.stringify(e));
         });
         $('#modalForm').modal('hide');
     },
@@ -119,7 +119,7 @@ var app = {
                 app.funcList();
             });
         }, function (e) {
-            console.log("ERROR: " + JSON.stringify(e));
+            console.log("ERROR funcDelete: " + JSON.stringify(e));
         });
     },
     funcTruncate: function () {
@@ -130,7 +130,7 @@ var app = {
             });
             app.funcList();
         }, function (e) {
-            console.log("ERROR: " + JSON.stringify(e));
+            console.log("ERROR funcTruncate: " + JSON.stringify(e));
         });
     }
 };
